@@ -1,7 +1,12 @@
 ## What is it?
+
+This is mashup of this forked project and the hardware & some code from [here] (http://www.tannr.com/2015/01/16/raspberry-pi-garage-door-opener-part-1/)
+
+
+
 [**Spanish version**](https://github.com/UlisesGascon/raspi_gtalk_robot/blob/master/README_es.md)
 
-This script will allow you to communicate directly with your Raspberry Pi using Gtalk / Google Hangouts.
+This script will allow you to communicate directly with your Raspberry Pi using JWCHAT.
 
 You can run it in any device that supports google hangouts
 
@@ -47,12 +52,14 @@ sudo python ./raspiBot.py
 As [mitchtech](https://github.com/mitchtech) said in [this blog entry](http://mitchtech.net/raspberry-pi-google-talk-robot/):
 > 
 ```
+[garage] : turns pin 18 high and opens the garage door
 [pinon|pon|on|high] [pin] : turns on the specified GPIO pin
 [pinoff|poff|off|low] [pin] : turns off the specified GPIO pin
 [write|w] [pin] [state] : writes specified state to the specified GPIO pin
 [read|r] [pin]: reads the value of the specified GPIO pin
 [available|online|busy|dnd|away|idle|out|xa] [arg1] : set gtalk state and status message to specified argument
 [shell|bash] [arg1] : executes the specified shell command argument after ‘shell’ or ‘bash’
+
 ```
 >
 
