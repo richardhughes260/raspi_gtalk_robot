@@ -1,4 +1,28 @@
-﻿#!/usr/bin/env python
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+#
+# PyGtalkRobot: A simple jabber/xmpp bot framework using Regular Expression Patt
+ern as command controller
+# Copyright (c) 2008 Demiao Lin <ldmiao@gmail.com>
+#
+# RaspiBot: A simple software robot for Raspberry Pi based on PyGtalkRobot
+# Copyright (c) 2013 Michael Mitchell <michael@mitchtech.net>
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+pi@piaware ~/raspi_gtalk_robot $ cat raspiBot.py
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
 # PyGtalkRobot: A simple jabber/xmpp bot framework using Regular Expression Pattern as command controller
@@ -28,11 +52,12 @@ import subprocess
 import RPi.GPIO as GPIO
 from PyGtalkRobot import GtalkRobot
 
-BOT_GTALK_USER = 'bot_username@gmail.com'
-BOT_GTALK_PASS = 'password'
-BOT_ADMIN = 'admin_username@gmail.com'
+BOT_GTALK_USER = 'PI_ADDRESS@jwchat.org'
+BOT_GTALK_PASS = 'PASSWORD_HERE'
+BOT_ADMIN = ['USER_ONE@jwchat.org','USER_TWO@jwchat.org','USER_THREE@jwchat.org']
 
-GPIO.setmode(GPIO.BOARD) # or GPIO.setmode(GPIO.BCM)
+GPIO.setmode(GPIO.BOARD) # or 
+#GPIO.setmode(GPIO.BCM)
 ############################################################################################################################
 
 class RaspiBot(GtalkRobot):
@@ -56,7 +81,8 @@ class RaspiBot(GtalkRobot):
         jid = user.getStripped()
 
         # Verify if the user is the Administrator of this bot
-        if jid == BOT_ADMIN:
+#        if jid == BOT_ADMIN:
+        if jid in BOT_ADMIN:
             print jid, " ---> ",bot.getResources(jid), bot.getShow(jid), bot.getStatus(jid)
             self.setState(show, status)
             self.replyMessage(user, "State settings changed！")
@@ -115,6 +141,25 @@ class RaspiBot(GtalkRobot):
             print line,
         retval = p.wait()
         self.replyMessage(user, output +" at: "+time.strftime("%Y-%m-%d %a %H:%M:%S", time.localtime()))
+
+    #This executes the garage command
+    def command_003_garage(self, user, message, args):
+        '''(garage)( +(.*))?$(?i)'''
+	# set the GPIO mode
+#	GPIO.setmode(GPIO.BCM)
+	# set pin 18 for output
+	GPIO.setup(18, GPIO.OUT)
+	# output to pin 18
+	GPIO.output(18, True)
+	# sleep for one second
+	time.sleep(1)
+	# turn off output for pin 18
+	GPIO.output(18, False)
+	# gpio cleanup
+	pin_num = 18
+	self.replyMessage(user, "\nGarage Pin on:18 at: "+time.strftime("%Y-%m-%d %a %H:%M:%S", time.localtime()))
+#	GPIO.cleanup()
+#        self.replyMessage(user, output +" Garage activated at: "+time.strftime("%Y-%m-%d %a %H:%M:%S", time.localtime()))
     
     #This method is the default response
     def command_100_default(self, user, message, args):
